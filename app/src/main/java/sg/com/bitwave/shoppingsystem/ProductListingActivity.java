@@ -33,6 +33,8 @@ public class ProductListingActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_view_module_white_48dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_view_list_white_48dp);
     }
 
     private void setupViewPager(ViewPager viewPager) {

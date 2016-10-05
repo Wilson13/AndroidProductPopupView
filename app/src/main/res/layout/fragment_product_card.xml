@@ -1,10 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    app:layout_aspectRatio="161.8%"
+    app:layout_widthPercent="95%"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_centerHorizontal="true"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardBackgroundColor="@color/colorRed">
+    <!-- Golden Ratio 1.618:1 = width:height -->
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Product Card Fragment"
-        android:gravity="center" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:gravity="center">
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/white">
+            <ImageView
+                android:id="@+id/iv_product_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_widthPercent="61.54%"
+                android:src="@drawable/hbc_200_edited" />
+            <LinearLayout
+                android:layout_toRightOf="@+id/iv_product_1"
+                android:layout_toEndOf="@+id/iv_product_1"
+                app:layout_widthPercent="61.54%"
+                android:orientation="vertical">
+                <android.support.percent.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5">
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="HBC200 Force"
+                        android:textSize="18sp"
+                        android:textColor="#424242"
+                        />
+
+                </android.support.percent.PercentRelativeLayout>
+                <android.support.percent.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5">
+                    <TextView
+                        android:id="@+id/tv_desc"
+                        android:layout_width="match_parent"
+                        app:layout_widthPercent="50%"
+                        android:gravity="center"
+                        android:text="Bluetooth Helmet Audio System – Single Kit"
+                        android:textSize="12sp"
+                        android:textColor="#757575"
+                        />
+                    <TextView
+                        android:layout_toRightOf="@+id/tv_desc"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="$229.95"
+                        android:textSize="16sp"
+                        android:textColor="@color/colorRed" />
+                    </android.support.percent.PercentRelativeLayout>
+                </LinearLayout>
+            </android.support.percent.PercentRelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_below="@+id/card_view"
+        android:id="@+id/card_view_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_aspectRatio="161.8%"
+        app:layout_widthPercent="95%"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardBackgroundColor="@color/colorRed">
+        <!-- Golden Ratio 1.618:1 = width:height -->
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/white">
+            <ImageView
+                android:id="@+id/iv_product_2"
+                app:layout_widthPercent="61.8%"
+                android:src="@drawable/hbc_200_edited" />
+            <TextView
+                android:layout_toRightOf="@+id/iv_product_2"
+                android:id="@+id/tv_title_2"
+                app:layout_widthPercent="38.2%"
+                app:layout_heightPercent="20%"
+                android:gravity="bottom"
+                android:text="HBC200 Force"
+                android:textSize="18sp"
+                android:textColor="#424242" />
+
+            <TextView
+                android:layout_toRightOf="@+id/iv_product_2"
+                android:layout_below="@id/tv_title_2"
+                android:id="@+id/tv_price_2"
+                app:layout_widthPercent="38.2%"
+                app:layout_heightPercent="15%"
+                android:gravity="left|center_vertical"
+                android:text="$229.95"
+                android:textSize="16sp"
+                android:textColor="#757575" />
+
+            <TextView
+                android:layout_toRightOf="@+id/iv_product_2"
+                android:layout_below="@id/tv_price_2"
+                android:id="@+id/tv_desc_2"
+                app:layout_widthPercent="38.2%"
+                app:layout_heightPercent="40%"
+                android:paddingRight="5dp"
+                android:gravity="top"
+                android:text="Bluetooth Helmet Audio System – Single Kit The Bluetooth® enabled HBC200 Force features exclusive concealed dual-microphone technology and high-fidelity speakers. The HBC200 Force integrated helmet communication system allows riders to intercom wirelessly to an unlimited number of friends, family, and any Bluetooth® streaming device."
+                android:textSize="12sp"
+                android:maxLines="6"
+                android:textColor="#757575" />
+
+            <TextView
+                android:layout_toRightOf="@+id/iv_product_2"
+                android:layout_below="@id/tv_desc_2"
+                app:layout_widthPercent="38.2%"
+                app:layout_heightPercent="25%"
+                android:gravity="center_vertical"
+                android:text="Buy Now"
+                android:textSize="16sp"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary" />
+            <!--<TextView
+                android:layout_toRightOf="@+id/iv_product_2"
+                android:layout_below="@id/tv_title_2"
+                android:id="@+id/tv_price_2"
+                app:layout_widthPercent="19.1%"
+                app:layout_heightPercent="37.5%"
+                android:gravity="center"
+                android:text="$229.95"
+                android:textSize="16sp"
+                android:textColor="#757575" />
+            -->
+            <!--
+
+            <TextView
+                android:layout_toRightOf="@+id/tv_desc_2"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="$229.95"
+                android:textSize="16sp"
+                android:textColor="@color/colorRed" />-->
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <!--<android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_below="@+id/card_view"
+        android:id="@+id/card_view_2"
+        android:layout_alignParentLeft="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_aspectRatio="61.8%"
+        app:layout_widthPercent="50%"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardBackgroundColor="@color/colorRed">
+        &lt;!&ndash; Golden Ratio 1.618:1 = width:height = 1.618 / 1 * 100% for Horizontal &ndash;&gt;
+        &lt;!&ndash; Golden Ratio 1:1.618 = width:height = 1 / 1.618 * 100% for Vertical &ndash;&gt;
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/white">
+
+                <ImageView
+                    android:id="@+id/iv_product_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_heightPercent="61.54%"
+                    android:src="@drawable/hbc_200_edited" />
+                <TextView
+                    android:layout_below="@id/iv_product_2"
+                    android:id="@+id/tv_price_2"
+                    app:layout_widthPercent="100%"
+                    app:layout_heightPercent="10%"
+                    android:gravity="center"
+                    android:text="$229.95"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorRed" />
+                <TextView
+                    android:layout_below="@id/tv_price_2"
+                    android:id="@+id/tv_title_2"
+                    android:layout_width="match_parent"
+                    app:layout_heightPercent="10%"
+                    android:gravity="center"
+                    android:text="HBC200 Force"
+                    android:textSize="16sp"
+                    android:textColor="#424242" />
+                <TextView
+                    android:layout_below="@id/tv_title_2"
+                    android:id="@+id/tv_desc_2"
+                    android:layout_width="match_parent"
+                    app:layout_heightPercent="12%"
+                    android:gravity="center"
+                    android:text="Bluetooth Helmet Audio System – Single Kit"
+                    android:textSize="14sp"
+                    android:textColor="#757575" />
+
+                <TextView
+                    android:layout_below="@id/tv_desc_2"
+                    app:layout_widthPercent="100%"
+                    app:layout_heightPercent="13.46%"
+                    android:gravity="center"
+                    android:text="Buy Now"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary" />
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_aspectRatio="61.8%"
+        app:layout_widthPercent="50%"
+        card_view:cardCornerRadius="4dp"
+        android:layout_alignTop="@+id/card_view_2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+        &lt;!&ndash; Golden Ratio 1.618:1 = width:height = 1.618 / 1 * 100% for Horizontal &ndash;&gt;
+        &lt;!&ndash; Golden Ratio 1:1.618 = width:height = 1 / 1.618 * 100% for Vertical &ndash;&gt;
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/white">
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/prl_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                app:layout_heightPercent="61.54%"
+                android:background="@android:color/white">
+
+                <TextView
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/tv_title_3"
+                    android:layout_width="match_parent"
+                    app:layout_heightPercent="20%"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="HBC200 Force"
+                    android:textSize="16sp"
+                    android:textColor="#424242" />
+
+                <TextView
+                    android:layout_below="@id/tv_title_3"
+                    android:id="@+id/tv_desc_3"
+                    android:layout_width="match_parent"
+                    app:layout_heightPercent="12%"
+                    android:gravity="center"
+                    android:text="Bluetooth Helmet Audio System"
+                    android:textSize="12sp"
+                    android:textColor="#757575" />
+
+                <ImageView
+                    android:layout_below="@+id/tv_desc_3"
+                    android:id="@+id/iv_product_3"
+                    app:layout_widthPercent="100%"
+                    app:layout_heightPercent="68%"
+                    android:src="@drawable/hbc_200_edited" />
+            </android.support.percent.PercentRelativeLayout>
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_below="@+id/prl_product"
+                android:id="@+id/prl_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                app:layout_heightPercent="38.46%"
+                android:background="@android:color/white">
+                <TextView
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/tv_price_3"
+                    app:layout_widthPercent="100%"
+                    app:layout_heightPercent="38.46%"
+                    android:gravity="center"
+                    android:text="$229.95"
+                    android:textSize="20sp"
+                    android:textColor="#616161" />
+                <TextView
+                    android:layout_below="@id/tv_price_3"
+                    app:layout_widthPercent="100%"
+                    app:layout_heightPercent="61.54%"
+                    android:gravity="center"
+                    android:text="Buy Now"
+                    android:textSize="16sp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary" />
+            </android.support.percent.PercentRelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
+
+    </android.support.v7.widget.CardView>-->
+
+</android.support.percent.PercentRelativeLayout>
