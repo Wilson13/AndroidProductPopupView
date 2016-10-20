@@ -28,7 +28,7 @@
             <ImageView
                 android:id="@+id/iv_product_2"
                 app:layout_widthPercent="61.8%"
-                android:src="@drawable/hbc_200_edited"
+                android:src="@drawable/hbc_200"
                 android:background="@android:color/white"/>
             <TextView
                 android:layout_toRightOf="@+id/iv_product_2"

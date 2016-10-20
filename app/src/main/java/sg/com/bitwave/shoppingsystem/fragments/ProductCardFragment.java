@@ -8,9 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import sg.com.bitwave.shoppingsystem.ProductListingActivity;
 import sg.com.bitwave.shoppingsystem.R;
 
-public class ProductCardFragment extends Fragment {
+public class ProductCardFragment extends Fragment implements View.OnClickListener {
 
     public ProductCardFragment() {
         // Empty constructor
@@ -34,6 +35,13 @@ public class ProductCardFragment extends Fragment {
         tvTitle2.setTypeface(robotoBlack);
         tvPrice2.setTypeface(robotoLight);
 
+        rootview.findViewById(R.id.card_view_2).setOnClickListener(this);
+
         return rootview;
+    }
+
+    @Override
+    public void onClick(View view) {
+        ((ProductListingActivity)getActivity()).displayCardAlert();
     }
 }
