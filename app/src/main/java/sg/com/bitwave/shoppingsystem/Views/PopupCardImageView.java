@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,6 +25,7 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
 
     private Bitmap imageBitmap;
     private Bitmap resizedBitmap;
+    private Bitmap smallBitmps[];
     private Paint paint;
     private Path path;
     private Canvas mCanvas;
@@ -31,6 +33,15 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
 
     private int width;
     private int height;
+
+    private int slantHeight;
+    private int bubbleRadius;
+    private int bubbleOneX;
+    private int bubbleTwoX;
+    private int bubbleThreeX;
+    private int bubbleOneY;
+    private int bubbleTwoY;
+    private int bubbleThreeY;
 
     private float imageX;
 
@@ -44,57 +55,60 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
         Log.i("POPCARD", "imageBitmap width: " + imageBitmap.getWidth());
         Log.i("POPCARD", "imageBitmap height: " + imageBitmap.getHeight());
 
-        /*paint.setDither(true);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeWidth(3);*/
-
-        //path.moveTo(100, 100);
-        //path.lineTo(300, 300);
-
-        /*path.moveTo(point2_returned.x, point2_returned.y);
-        path.lineTo(point3_returned.x, point3_returned.y);
-        path.moveTo(point3_returned.x, point3_returned.y);
-        path.lineTo(point1_returned.x, point1_returned.y);*/
-        //path.close();
-
         this.setOnTouchListener(this);
         mCanvas = new Canvas();
     }
 
     private Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
 
-        // CREATE A MATRIX FOR THE MANIPULATION
-        /*Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
+        // Center crop the bitmap using ThumbnailUtils
+        // OPTIONS_RECYCLE_INPUT is the constant used to indicate we should recycle the input in
+        //      extractThumbnail(Bitmap, int, int, int)
+        // unless the output is the input. We should not do that as the image is still used.
+        Bitmap thumbnailBitmap = ThumbnailUtils.extractThumbnail(bm, newWidth, newHeight);
 
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();*/
-
-        Bitmap newBitmap = Bitmap.createBitmap(newWidth, newHeight, bm.getConfig());
+        // Draw rounded corner on image
+        Bitmap newBitmap = Bitmap.createBitmap(newWidth, newHeight, thumbnailBitmap.getConfig());
         Canvas canvas = new Canvas(newBitmap);
         Paint mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setShader(new BitmapShader(bm, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        canvas.drawRoundRect((new RectF(0, 0, newWidth, newHeight)), 25, 25, mPaint);// Round Image Corner 100 100 100 100
-        //canvas.drawRect(0, newHeight-25, newWidth, newHeight, mPaint);// Round Image Corner 100 100 100 100
-        //mimageView.setImageBitmap(imageRounded);
-
-        /*Bitmap newBitmap = Bitmap.createScaledBitmap(bm, newWidth,
-                newHeight, false);*/
+        mPaint.setShader(new BitmapShader(thumbnailBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        canvas.drawRoundRect((new RectF(0, 0, newWidth, newHeight)), 10, 10, mPaint);// Round Image Corner 100 100 100 100
 
         return newBitmap;
     }
 
-    private void drawSlantShape(int width, int height) {
+    private void setSmallBitmaps() {
+        for ( int i = 0; i < smallBitmps.length ; i++ ) {
+            if ( smallBitmps[i] != null ) {
+
+                // Create a squared center-cropped thumbnail with same width as bubbles.
+                int bitmapRadius = width/4;
+                Bitmap thumbnailBitmap = ThumbnailUtils.extractThumbnail(smallBitmps[i], bitmapRadius,bitmapRadius);
+
+                // Re-draw the bitmap as rounded bitmap
+                Bitmap newBitmap = Bitmap.createBitmap(bitmapRadius, bitmapRadius, thumbnailBitmap.getConfig());
+                Canvas canvas = new Canvas(newBitmap);
+                Paint mPaint = new Paint();
+                mPaint.setAntiAlias(true);
+                mPaint.setShader(new BitmapShader(thumbnailBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                canvas.drawCircle(bitmapRadius/2, bitmapRadius/2, bitmapRadius/2 - 5, mPaint);
+                //canvas.drawRect(new Rect(0, 0, width/4, width/4), mPaint);
+                smallBitmps[i] = newBitmap;
+            }
+        }
+    }
+
+    private void setSlantShape(int width, int height) {
 
         // Draw this shape according to view's width and image's height.
+        // Image's height - 50 is to leave space for rectangle that
+        // cover up the image's btm rounded corner.
+        int slantHeight = resizedBitmap.getHeight()-50;
+
         paint = new Paint();
         paint.setColor(Color.WHITE);
+        //paint.setColor(Color.parseColor("#484A47"));
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(3);
@@ -102,18 +116,54 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
         path = new Path();
 
         // Starting point, bottom left corner
-        path.moveTo(0, resizedBitmap.getHeight()-50);
+        path.moveTo(0, slantHeight);
 
         // Top right corner
-        path.lineTo(width, resizedBitmap.getHeight()/2);
+        path.lineTo(width, slantHeight/2);
 
         // Bottom right corner
-        path.lineTo(width, resizedBitmap.getHeight()-50);
+        path.lineTo(width, slantHeight);
 
         path.close();
 
-        // Draw rect to fill up the btm rounded corners
-        rect = new Rect(0, height-50, width, height);
+        // Rect to fill up the btm rounded corners
+        rect = new Rect(0, slantHeight, width, height);
+    }
+
+    private void setBubbles() {
+        // A different slantHeight that is based on the height of view, not the image.
+        slantHeight = height - 50;
+
+        // Distribute 1/4 of the width to three bubbles,
+        // first bubble shift leftward by 1/4 of width / 3,
+        // second bubble remain at center,
+        // third bubble shift rightward by 1/4 of width / 3.
+        /*bubbleOneX = width/4 - (width/4/3);
+        bubbleTwoX = 2 * width/4;
+        bubbleThreeX = 3 * width/4 + (width/4/3);*/
+
+        // Diameter is 1/4 of width, so radius is 1/8 of width.
+        bubbleRadius = width/8;
+        bubbleOneX = width/4;
+        bubbleTwoX = 2 * width/4;
+        bubbleThreeX = 3 * width/4;
+
+        // Get Y by using ratio.
+        // y/x = h/w, so, y = x * h/w
+        bubbleOneY = slantHeight - ( width/4 * ( slantHeight/2 )/width );
+        bubbleTwoY = slantHeight - ( 2 * width/4 * ( slantHeight/2 )/width );
+        bubbleThreeY = slantHeight - ( 3 * width/4 * ( slantHeight/2 )/width );
+    }
+
+    public void setLargeImage(Bitmap bitmap) {
+        if ( bitmap != null ) {
+            imageBitmap = bitmap;
+            //bitmap.recycle();
+        }
+    }
+
+    public void setSmallImages(Bitmap bitmap[]) {
+        smallBitmps = bitmap;
     }
 
     @Override
@@ -124,6 +174,18 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
         canvas.drawPath(path, paint);
         canvas.drawRect(rect, paint);
 
+        paint.setColor(Color.WHITE);
+        //canvas.drawCircle((float) imageBitmap.getWidth()/2, (float) imageBitmap.getHeight(), width/4, paint);
+
+        canvas.drawCircle(bubbleOneX, bubbleOneY, bubbleRadius, paint);
+        canvas.drawCircle(bubbleTwoX, bubbleTwoY, bubbleRadius, paint);
+        canvas.drawCircle(bubbleThreeX, bubbleThreeY, bubbleRadius, paint);
+
+        canvas.drawBitmap(smallBitmps[0], bubbleOneX-bubbleRadius, bubbleOneY-bubbleRadius, null);
+        canvas.drawBitmap(smallBitmps[1], bubbleTwoX-bubbleRadius, bubbleTwoY-bubbleRadius, null);
+        canvas.drawBitmap(smallBitmps[2], bubbleThreeX-bubbleRadius, bubbleThreeY-bubbleRadius, null);
+
+        //canvas.drawBitmap(smallBitmps[0], bubbleOneX, bubbleTwoY, null);
         //canvas.drawBitmap(imageBitmap, imageX, 0, null);
         //super.onDraw(canvas);
     }
@@ -142,14 +204,16 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
 
                 // Draw image accordingly to its original size.
                 resizedBitmap = getResizedBitmap(imageBitmap, imageBitmap.getWidth(), imageBitmap.getHeight());
-                drawSlantShape(width, imageBitmap.getHeight());
+                setSlantShape(width, imageBitmap.getHeight());
             } else {
                 // If image is smaller than the view,
                 // draw image accordingly to the view size.
                 imageX = 0;
                 resizedBitmap = getResizedBitmap(imageBitmap, width, height);
-                drawSlantShape(width, height);
+                setSlantShape(width, height);
             }
+            setBubbles();
+            setSmallBitmaps();
             setMeasuredDimension(width, height);
         }
         /*else {

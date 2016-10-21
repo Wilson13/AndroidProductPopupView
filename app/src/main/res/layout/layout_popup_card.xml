@@ -9,10 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <sg.com.bitwave.shoppingsystem.Views.PopupCardImageView
+            android:id="@+id/pciv_image"
             app:layout_aspectRatio="100%"
             app:layout_widthPercent="100%"
             android:layout_margin="0dp"
-            app:srcImage="@drawable/test_image_2"
+            app:srcImage="@drawable/hbc_200"
             android:theme="@style/CustomDialog" />
         <!--<ImageView
             app:layout_aspectRatio="100%"

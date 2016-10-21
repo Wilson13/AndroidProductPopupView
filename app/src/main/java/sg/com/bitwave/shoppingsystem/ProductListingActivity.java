@@ -1,22 +1,29 @@
 package sg.com.bitwave.shoppingsystem;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.com.bitwave.shoppingsystem.Views.PopupCardImageView;
 import sg.com.bitwave.shoppingsystem.fragments.ProductCardFragment;
 import sg.com.bitwave.shoppingsystem.fragments.ProductListFragment;
 
@@ -84,22 +91,41 @@ public class ProductListingActivity extends AppCompatActivity {
 
     public void displayCardAlert() {
 
-        // Using layoutinflater would cause the layout dimension to be wrong (not wraping content, extra spacings)
-        /*LayoutInflater mLayoutInflater = this.getLayoutInflater();
-        View popCardView = mLayoutInflater.inflate(R.layout.layout_popup_card, null);*/
+        LayoutInflater mLayoutInflater = this.getLayoutInflater();
+        View popCardView = mLayoutInflater.inflate(R.layout.layout_popup_card, null);
+
+        /*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, 0);*/
 
         Resources r = getResources();
-        float widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 309, r.getDisplayMetrics());
-        float heightPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 500, r.getDisplayMetrics());
+        float widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, r.getDisplayMetrics());
+        float heightPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 420, r.getDisplayMetrics());
 
         //Dialog popupDialog = new Dialog(this);
+        //popupDialog.setContentView(popCardView, params);
+        //popupDialog.show();
+        //popupDialog.getWindow().setLayout((int) widthPx, (int) heightPx); //Controlling width and height.
+        //popupDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         AlertDialog.Builder popupDialog = new AlertDialog.Builder(this);
-        //popupDialog.setContentView(R.layout.layout_popup_card);
-        popupDialog.setView(R.layout.layout_popup_card);
+        popupDialog.setView(popCardView);
+
+        // Set up large image and small images
+        Bitmap bitmap = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.test_image_5)).getBitmap();
+        Bitmap smallBitmaps[] = new Bitmap[3];
+        smallBitmaps[0] = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.test_image_6)).getBitmap();
+        smallBitmaps[1] = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.test_image_7)).getBitmap();
+        smallBitmaps[2] = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.test_image_8)).getBitmap();
+
+        PopupCardImageView mPCIV = (PopupCardImageView) popCardView.findViewById(R.id.pciv_image);
+        mPCIV.setLargeImage(bitmap);
+        mPCIV.setSmallImages(smallBitmaps);
+
         //popupDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //popupDialog.show();
 
         AlertDialog popupAD = popupDialog.create();
+        popupAD.requestWindowFeature(Window.FEATURE_NO_TITLE);
         popupAD.show();
         popupAD.getWindow().setLayout((int) widthPx, (int) heightPx); //Controlling width and height.
         popupAD.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
