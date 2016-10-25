@@ -8,7 +8,7 @@
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <sg.com.bitwave.shoppingsystem.views.PopupCardImageView
+        <sg.com.bitwave.shoppingsystem.views.PopupHorizontalCardImageView
             android:id="@+id/pciv_image"
             app:layout_aspectRatio="100%"
             app:layout_widthPercent="100%"

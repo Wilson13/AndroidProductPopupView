@@ -21,7 +21,7 @@ import android.view.View;
 
 import sg.com.bitwave.shoppingsystem.R;
 
-public class PopupCardImageView extends View implements View.OnTouchListener {
+public class PopupHorizontalCardImageView extends View implements View.OnTouchListener {
 
     private Bitmap imageBitmap;
     private Bitmap resizedBitmap;
@@ -35,7 +35,6 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
     private int height;
     private int cornerRadius;
     private int slantHeight;
-    private int slantRatio;
     private int bubbleRadius;
     private int bubbleOneX;
     private int bubbleTwoX;
@@ -46,7 +45,7 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
 
     private float imageX;
 
-    public PopupCardImageView(Context context, AttributeSet attrs) {
+    public PopupHorizontalCardImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.PopupCardImageView, 0, 0);
@@ -107,7 +106,7 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
         // Image's height - 50 is to leave space for rectangle that
         // cover up the image's btm rounded corner.
         int slantHeight = resizedBitmap.getHeight()-50;
-        slantRatio = 4;
+
         paint = new Paint();
         paint.setColor(Color.WHITE);
         //paint.setColor(Color.parseColor("#484A47"));
@@ -118,19 +117,18 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
         path = new Path();
 
         // Starting point, bottom left corner
-        path.moveTo(0, slantHeight);
+        /*path.moveTo(0, slantHeight);
 
         // Top right corner
-        //path.lineTo(width, slantHeight/2);
-        path.lineTo(width, slantHeight - slantHeight / slantRatio );
+        path.lineTo(width, slantHeight/2);
 
         // Bottom right corner
         path.lineTo(width, slantHeight);
 
-        path.close();
+        path.close();*/
 
         // Rect to fill up the btm rounded corners
-        rect = new Rect(0, slantHeight, width, height);
+        rect = new Rect(0, slantHeight-60, width, height);
     }
 
     private void setBubbles() {
@@ -138,24 +136,24 @@ public class PopupCardImageView extends View implements View.OnTouchListener {
         slantHeight = height - 50;
 
         // Distribute 1/4 of the width to three bubbles,
-        // first bubble shift leftward by 1/4 of width / 3,
+        // first bubble shift leftward by 1/4 of width / 6,
         // second bubble remain at center,
-        // third bubble shift rightward by 1/4 of width / 3.
-        /*bubbleOneX = width/4 - (width/4/3);
+        // third bubble shift rightward by 1/4 of width / 6.
+        bubbleOneX = width/4 - (width/4/6);
         bubbleTwoX = 2 * width/4;
-        bubbleThreeX = 3 * width/4 + (width/4/3);*/
+        bubbleThreeX = 3 * width/4 + (width/4/6);
 
         // Diameter is 1/4 of width, so radius is 1/8 of width.
         bubbleRadius = width/8;
-        bubbleOneX = width/4;
+        /*bubbleOneX = width/4;
         bubbleTwoX = 2 * width/4;
-        bubbleThreeX = 3 * width/4;
+        bubbleThreeX = 3 * width/4;*/
 
         // Get Y by using ratio.
         // y/x = h/w, so, y = x * h/w
-        bubbleOneY =  slantHeight - ( width/4 * slantHeight / slantRatio  /  width) ;
-        bubbleTwoY = slantHeight - ( 2 * width/4 *  slantHeight / slantRatio / width );
-        bubbleThreeY = slantHeight - ( 3 * width/4 *  slantHeight / slantRatio / width );
+        bubbleOneY = slantHeight-60;
+        bubbleTwoY = bubbleOneY;
+        bubbleThreeY = bubbleOneY;
     }
 
     public void setLargeImage(Bitmap bitmap) {

@@ -23,14 +23,17 @@ import android.view.Window;
 import java.util.ArrayList;
 import java.util.List;
 
-import sg.com.bitwave.shoppingsystem.Views.PopupCardImageView;
+import sg.com.bitwave.shoppingsystem.asynctask.DownloadAsync;
+import sg.com.bitwave.shoppingsystem.views.PopupCardImageView;
+import sg.com.bitwave.shoppingsystem.views.PopupHorizontalCardImageView;
 import sg.com.bitwave.shoppingsystem.fragments.ProductCardFragment;
 import sg.com.bitwave.shoppingsystem.fragments.ProductListFragment;
 
 public class ProductListingActivity extends AppCompatActivity {
 
-    ViewPager viewPager;
-    TabLayout tabLayout;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private Bitmap downloadBm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,33 @@ public class ProductListingActivity extends AppCompatActivity {
         }
     }
 
+    private Bitmap DownloadLoadImage() {
+
+        // Read the dimensions and type of the image data prior
+        // to construction (and memory allocation) of the bitmap.
+        /*BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.id.myimage, options);
+        int imageHeight = options.outHeight;
+        int imageWidth = options.outWidth;
+        String imageType = options.outMimeType;*/
+
+
+
+        return null;
+    }
+
+    public void startDownloadAsync() {
+        String urls[] = {
+                              "http://iclear-digital.com/clearlink_shopping/test_image_9.jpg"
+                            , "http://iclear-digital.com/clearlink_shopping/test_image_10.jpg"
+                            , "http://iclear-digital.com/clearlink_shopping/test_image_11.jpg"
+                            //, "http://iclear-digital.com/clearlink_shopping/test_image_12.jpg"
+                            //, "http://iclear-digital.com/clearlink_shopping/test_image_13.jpg"
+                        };
+        new DownloadAsync(this).execute(urls);
+    }
+
     public void displayCardAlert() {
 
         LayoutInflater mLayoutInflater = this.getLayoutInflater();
@@ -119,6 +149,48 @@ public class ProductListingActivity extends AppCompatActivity {
 
         PopupCardImageView mPCIV = (PopupCardImageView) popCardView.findViewById(R.id.pciv_image);
         mPCIV.setLargeImage(bitmap);
+        mPCIV.setSmallImages(smallBitmaps);
+
+        //popupDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //popupDialog.show();
+
+        AlertDialog popupAD = popupDialog.create();
+        popupAD.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        popupAD.show();
+        popupAD.getWindow().setLayout((int) widthPx, (int) heightPx); //Controlling width and height.
+        popupAD.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+    }
+
+    public void displayHorizontalCardAlert(Bitmap downloadedBm[]) {
+
+        LayoutInflater mLayoutInflater = this.getLayoutInflater();
+        View popCardView = mLayoutInflater.inflate(R.layout.layout_popup_card_2, null);
+
+        /*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, 0);*/
+
+        Resources r = getResources();
+        float widthPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, r.getDisplayMetrics());
+        float heightPx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 420, r.getDisplayMetrics());
+
+        //Dialog popupDialog = new Dialog(this);
+        //popupDialog.setContentView(popCardView, params);
+        //popupDialog.show();
+        //popupDialog.getWindow().setLayout((int) widthPx, (int) heightPx); //Controlling width and height.
+        //popupDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        AlertDialog.Builder popupDialog = new AlertDialog.Builder(this);
+        popupDialog.setView(popCardView);
+
+        // Set up large image and small images
+        Bitmap smallBitmaps[] = new Bitmap[3];
+        smallBitmaps[0] = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.test_image_6)).getBitmap();
+        smallBitmaps[1] = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.test_image_7)).getBitmap();
+        smallBitmaps[2] = ((BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.test_image_8)).getBitmap();
+
+        PopupHorizontalCardImageView mPCIV = (PopupHorizontalCardImageView) popCardView.findViewById(R.id.pciv_image);
+        mPCIV.setLargeImage(downloadedBm[1]);
         mPCIV.setSmallImages(smallBitmaps);
 
         //popupDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

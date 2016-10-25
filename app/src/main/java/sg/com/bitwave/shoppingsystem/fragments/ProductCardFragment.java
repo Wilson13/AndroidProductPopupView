@@ -36,12 +36,20 @@ public class ProductCardFragment extends Fragment implements View.OnClickListene
         tvPrice2.setTypeface(robotoLight);
 
         rootview.findViewById(R.id.card_view_2).setOnClickListener(this);
+        rootview.findViewById(R.id.card_view_3).setOnClickListener(this);
 
         return rootview;
     }
 
     @Override
     public void onClick(View view) {
-        ((ProductListingActivity)getActivity()).displayCardAlert();
+        switch (view.getId()) {
+            case R.id.card_view_2:
+                ((ProductListingActivity) getActivity()).displayCardAlert();
+                break;
+            case R.id.card_view_3:
+                ((ProductListingActivity) getActivity()).startDownloadAsync();
+                break;
+        }
     }
 }
